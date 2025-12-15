@@ -1,7 +1,4 @@
-# R Script: Generating Basic Summaries
-# Functions: str() and summary()
-# Dataset: Project Attendance (Simulated)
-
+# Dataset: Project Attendance
 # 1. SETUP: Create Sample Project Attendance Data
 project_df <- data.frame(
   Student_ID = 1:6,
@@ -26,11 +23,9 @@ project_df$Project_Name <- as.factor(project_df$Project_Name)
 print("--- OUTPUT OF summary() [After Factor Conversion] ---")
 summary(project_df)
 
-
 # 5. Accessing Specific Summaries
-
 avg_attendance <- mean(project_df$Attendance_Percent, na.rm = TRUE)
 max_attendance <- max(project_df$Attendance_Percent, na.rm = TRUE)
-
 print(paste("Average Project Attendance:", avg_attendance))
 print(paste("Highest Project Attendance:", max_attendance))
+
