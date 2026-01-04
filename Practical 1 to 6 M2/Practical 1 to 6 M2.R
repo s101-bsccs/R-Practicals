@@ -21,18 +21,18 @@ df$Temp_Group <- ifelse(df[[temp_col]] > mean(df[[temp_col]], na.rm = TRUE),
                         "High", "Low")
 
 # 1. Practical: Descriptive statistics
-print("--- 1. Descriptive Statistics ---")
+print("1. Descriptive Statistics")
 summary(df[[temp_col]])
 describe(df[[temp_col]])
 
 # 2. Practical: Frequency tables
-print("--- 2. Frequency Table ---")
+print("2. Frequency Table")
 freq_col <- cat_cols[1]
 table(df[[freq_col]])
 df %>% count(.data[[freq_col]])
 
 # 3. Practical: Cross-tabulation
-print("--- 3. Cross Tabulation ---")
+print("3. Cross Tabulation")
 if (length(cat_cols) >= 2) {
   table(df[[cat_cols[1]]], df[[cat_cols[2]]])
 } else {
@@ -40,19 +40,19 @@ if (length(cat_cols) >= 2) {
 }
 
 # 4. Practical: One-sample t-test
-print("--- 4. One-Sample t-test ---")
+print("4. One-Sample t-test")
 
 t_test_one <- t.test(df[[temp_col]], mu = mean(df[[temp_col]], na.rm = TRUE))
 print(t_test_one)
 
 # 5. Practical: Independent two-sample t-test
-print("--- 5. Independent Two-Sample t-test ---")
+print("5. Independent Two-Sample t-test")
 
 t_test_two <- t.test(df[[temp_col]] ~ df$Temp_Group)
 print(t_test_two)
 
 # 6. Practical: Paired t-test
-print("--- 6. Paired t-test ---")
+print("6. Paired t-test")
 
 # Use first two numeric columns for paired test
 if (length(num_cols) >= 2) {
@@ -63,3 +63,4 @@ if (length(num_cols) >= 2) {
 } else {
   print("Not enough numeric columns for paired t-test")
 }
+
