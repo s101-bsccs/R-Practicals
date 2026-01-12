@@ -28,9 +28,5 @@ round(cor_matrix, 2)
 install.packages("corrplot")
 library(corrplot)
 
-# 6. Draw correlation heatmap graph
-corrplot(cor_matrix,
-         method = "color",   # color heatmap
-         tl.cex = 0.7,       # label size
-         number.cex = 0.7)   # number size
+
 
