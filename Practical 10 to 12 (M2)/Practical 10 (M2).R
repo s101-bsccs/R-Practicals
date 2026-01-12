@@ -1,86 +1,56 @@
-# ============================================================
 # PRACTICAL 10 – Graphical Reports using ggplot2
-# ============================================================
 
-# 1. LOAD LIBRARIES
 library(ggplot2)
 library(dplyr)
 
-# 2. LOAD DATA FROM YOUR FULL PATH (already working for you)
-WA_Fn.UseC_.HR.Employee.Attrition <- read.csv(
-  "C:/Users/rajde/OneDrive/Rajdeep's File/Data Analysis with SAS,SPSS, R/Practical 10 to 12 (M2)/WA_Fn-UseC_-HR-Employee-Attrition.csv",
-  header = FALSE
-)
+# Load dataset
+df <- read.csv("WA_Fn-UseC_-HR-Employee-Attrition.csv")
 
-# 3. FIX HEADER ROW (because header = FALSE)
-colnames(WA_Fn.UseC_.HR.Employee.Attrition) <- WA_Fn.UseC_.HR.Employee.Attrition[1, ]
-df <- WA_Fn.UseC_.HR.Employee.Attrition[-1, ]
-
-# 4. CHECK DATA (optional)
-head(df)
-
-# ------------------------------------------------------------
-# 5. BAR CHART : Employee count by Department
-# ------------------------------------------------------------
-ggplot(df, aes(x = Department)) +
-  geom_bar(fill = "skyblue", color = "black") +
-  labs(
-    title = "Employee Count by Department",
-    x = "Department",
-    y = "Number of Employees"
-  ) +
-  theme_minimal()
-
-# ------------------------------------------------------------
-# 6. PIE CHART : Attrition Distribution
-# ------------------------------------------------------------
-attrition_data <- df %>% count(Attrition)
-
-ggplot(attrition_data, aes(x = "", y = n, fill = Attrition)) +
-  geom_col(color = "black") +
-  coord_polar(theta = "y") +
-  labs(title = "Attrition Distribution") +
-  theme_void()
-
-# ------------------------------------------------------------
-# 7. LINE GRAPH : Age vs Monthly Income
-# ------------------------------------------------------------
-# convert numeric columns (because header=FALSE made all character)
+# Convert numeric columns
 df$Age <- as.numeric(df$Age)
 df$MonthlyIncome <- as.numeric(df$MonthlyIncome)
+df$YearsAtCompany <- as.numeric(df$YearsAtCompany)
 
+# 1. SCATTER PLOT
+# Age vs Monthly Income
 ggplot(df, aes(x = Age, y = MonthlyIncome)) +
-  geom_line(color = "blue") +
+  geom_point(color = "blue") +
   labs(
-    title = "Monthly Income Trend by Age",
+    title = "Scatter Plot of Age vs Monthly Income",
     x = "Age",
     y = "Monthly Income"
   ) +
   theme_minimal()
 
-# ------------------------------------------------------------
-# 8. SCATTER PLOT : Age vs Years at Company
-# ------------------------------------------------------------
-df$YearsAtCompany <- as.numeric(df$YearsAtCompany)
 
-ggplot(df, aes(x = Age, y = YearsAtCompany)) +
-  geom_point(color = "red") +
+# 2. PIE CHART
+# Attrition Distribution
+attrition_data <- df %>% count(Attrition)
+
+ggplot(attrition_data, aes(x = "", y = n, fill = Attrition)) +
+  geom_col(color = "black") +
+  coord_polar(theta = "y") +
+  labs(title = "Employee Attrition Distribution") +
+  theme_void()
+
+
+# 3. HIGH–LOW CHART
+# Monthly Income Range by Department
+# Create High and Low Income per Job Level
+income_range <- df %>%
+  group_by(JobLevel) %>%
+  summarise(
+    Low = min(MonthlyIncome, na.rm = TRUE),
+    High = max(MonthlyIncome, na.rm = TRUE)
+  )
+
+ggplot(income_range, aes(x = as.factor(JobLevel))) +
+  geom_linerange(aes(ymin = Low, ymax = High), color = "black") +
   labs(
-    title = "Scatter Plot: Age vs Years at Company",
-    x = "Age",
-    y = "Years at Company"
+    title = "High–Low Chart of Monthly Income by Job Level",
+    x = "Job Level",
+    y = "Monthly Income Range"
   ) +
   theme_minimal()
 
-# ------------------------------------------------------------
-# 9. GROUPED BAR PLOT : Attrition by Gender
-# ------------------------------------------------------------
-ggplot(df, aes(x = Gender, fill = Attrition)) +
-  geom_bar(position = "dodge") +
-  labs(
-    title = "Attrition by Gender",
-    x = "Gender",
-    y = "Count"
-  ) +
-  theme_minimal()
 
