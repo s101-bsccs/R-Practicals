@@ -1,7 +1,5 @@
 # S101 RAJDEEP M PARAB
 # PRACTICAL 14 – Logistic Regression using glm()
-# Proper S-shaped Logistic Curve
-
 # 1. Load data 
 # Use 'modified_binary.csv' for a more prominent S-curve
 df <- read.csv("binary.csv")
@@ -32,4 +30,5 @@ ggplot(df, aes(x = gre, y = admit)) +
     y = "Probability of Admission"
   ) +
   theme_minimal()
+
 
